@@ -1,18 +1,12 @@
 #pragma once
 
-#define Servo_Arm 11
-#define Servo_F 10
-
 #include "MOTORS.h"
 #include "ENCODERS.h"
 #include "SENSORZ.h"
-#include "Servo.h"
 
 Robot robot;
 
 void setup_robot(){ 
-  Aservo.attach(Servo_Arm);
-  Fservo.attach(Servo_F);
   attachInterrupt(2, test_1, CHANGE);
   attachInterrupt(3, test_2, CHANGE);
   attachInterrupt(4, test_3, CHANGE);
@@ -25,8 +19,6 @@ void setup_robot(){
   pinMode(Speed_PinL, OUTPUT);
   pinMode(Tern_PinR, OUTPUT);
   pinMode(Tern_PinL, OUTPUT);
-  pinMode(Servo_Arm, OUTPUT);
-  pinMode(Servo_F, OUTPUT);
   LST=digitalRead(18);
   LST2=digitalRead(19);
   LST3=digitalRead(20);

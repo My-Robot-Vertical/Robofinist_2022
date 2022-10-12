@@ -12,8 +12,8 @@
 #define CM_ENC 286
 
 void ser(){
-//  Serial3.print(Encoder_Left);
-//  Serial3.print(Encoder_Right);
+  Serial3.print(Encoder_Left);
+  Serial3.print(Encoder_Right);
 }
 
 class Robot {

@@ -27,6 +27,8 @@ class Robot {
     get_IK_right();
     get_IK_forward();
     get_IK_error();
+    take();
+    drop();
   //private:
 };
 Robot::motors(long int M1, long int M2) {
@@ -79,4 +81,10 @@ Robot::get_IK_error(){
 }
 Robot::get_IK_forward(){
   return analogRead(5);
+}
+Robot::take(){
+  take();
+}
+Robot::drop(){
+  drop();
 }

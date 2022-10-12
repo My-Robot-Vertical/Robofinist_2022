@@ -1,0 +1,32 @@
+.ino
+motor my_motor(123,123);
+
+void setup(){}
+
+my_motor.run(123);
+int a = my_motor.test();
+
+
+
+
+.h
+class motor {
+  public:
+    motor(int a,int b);
+    run(int speed);
+    int diui;
+    int test();
+  private:
+    int _real_speed;
+};
+
+motor::run(int speed) {
+  _real_speed = speed;
+}
+
+motor::motor(int a,int b) {
+  diui = a+b;
+}
+motor::test() {
+  return 1243;
+}

@@ -3,9 +3,9 @@
 void setup(){
   Serial.begin(9600);
   setup_robot();
-  take();
-  delay(3000);
-  drop();
+  robot.take();
+  delay(500);
+  robot.drop();
 }
 void loop(){
   
