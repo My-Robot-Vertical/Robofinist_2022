@@ -40,6 +40,11 @@ void robot_main() {
   number_1_2();
 }
 
+void motor(int M0,int M1){
+  mot_L.setSpeed( M0,MOT_PWM);
+  mot_R.setSpeed( M1,MOT_PWM);
+}
+
 void setup() {
   robot_setup();
   robot_main();
