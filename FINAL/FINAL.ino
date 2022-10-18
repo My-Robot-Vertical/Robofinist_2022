@@ -21,10 +21,10 @@ void robot_setup() {
   mot_R.begin();
   mot_L.setDirection(false);
   mot_R.setDirection(true);
-  servo_finger.attach(9);
-  servo_finger.write(40);
-  servo_arm.attach(3);
-  servo_arm.write(180);
+  servo_finger.attach(3);
+  servo_finger.write(180);
+  servo_arm.attach(9);
+  servo_arm.write(40);
   delay(1000);
   servo_finger.detach();
   servo_arm.detach();
