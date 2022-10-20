@@ -12,6 +12,10 @@ int BOX = 0;
 void setup() {
   Serial.begin(9600);
   robot.setup();
+  //robot_main();
+}
+
+void robot_main() {
   robot.PID_do_perecresta();
   robot.forward_millis(300);
   while (COUNTER<=3 && OBJECT<6) work();
@@ -85,24 +89,6 @@ void eat(int t) {
   else robot.forward_millis(a-t);
 }
 
-
-
-
 void loop() {
-  /*robot.arm_take();
-  delay(1000);
-  robot.arm_drop();
-  delay(1000);*/
-  //robot.motor(100,100);
-  //delay(1000);
-  //robot.motor(100,100);
-  //robot.motor(0,0);
-  //robot.arm_take();
-  //robot.PID_do_perecresta();
-  /*robot.turn_left_perecrestok();
-  robot.PID_do_perecresta();
-  robot.turn_right_perecrestok();
-  robot.PID_do_perecresta();*/
-  //Serial.println(M+e);
-  //Serial.println(robot.get_color());
+  Serial.println(robot.get_color());
 }

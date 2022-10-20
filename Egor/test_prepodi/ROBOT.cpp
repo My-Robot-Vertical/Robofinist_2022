@@ -120,7 +120,12 @@ Robot::get_color() {
 
 Robot::get_distanse() {
   // https://github.com/Ni3nayka/sketch/blob/main/arduino/исходники/distanse_IK/distanse_IK.ino
-  return (32*pow(analogRead(SENSOR_DISTANSE)*0.0048828125, -1.10));
+  int T = 10, sum = 0;
+  for (int i = 0; i<T; i++) sum += analogRead(SENSOR_DISTANSE);
+  sum /= T;
+  sum = 32*pow(sum*0.0048828125, -1.10); 
+  //if (sum>100) return 100;
+  return sum;
 }
 
 Robot::PID() {
