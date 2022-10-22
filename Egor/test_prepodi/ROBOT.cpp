@@ -42,8 +42,14 @@ Robot::arm_take() {
 }
 
 Robot::arm_drop() {
+  Robot::forward_millis(1500);
+  Robot::backward_millis(1500);
   Robot::servo_arm_run(SERVO_ARM_UP,SERVO_ARM_DOWN);
   Robot::servo_finger_run(SERVO_FINGER_TAKE,SERVO_FINGER_DROP);
+  
+  Robot::forward_millis(500);
+  Robot::backward_millis(500);
+  
   Robot::servo_arm_run(SERVO_ARM_DOWN,SERVO_ARM_UP);
   Robot::servo_finger_run(SERVO_FINGER_DROP,SERVO_FINGER_TAKE);
 }
@@ -51,9 +57,28 @@ Robot::arm_drop() {
 Robot::arm_mega_drop() {
   Robot::servo_arm_run(SERVO_ARM_UP,SERVO_ARM_MEGA_DOWN);
   Robot::servo_finger_run(SERVO_FINGER_TAKE,SERVO_FINGER_DROP);
+  
+  //Robot::forward_millis(500);
+  //Robot::backward_millis(500);
+  
   Robot::backward_millis(1000);
   Robot::servo_arm_run(SERVO_ARM_MEGA_DOWN,SERVO_ARM_UP);
   Robot::servo_finger_run(SERVO_FINGER_DROP,SERVO_FINGER_TAKE);
+}
+
+Robot::new_take() {
+  Robot::servo_finger_run(SERVO_FINGER_TAKE,SERVO_FINGER_DROP);
+  Robot::servo_arm_run(SERVO_ARM_UP,SERVO_ARM_DOWN);
+  Robot::motor(MOTOR_SPEED,MOTOR_SPEED);
+  delay(500);
+  Robot::motor(0,0);
+  Robot::servo_finger_run(SERVO_FINGER_DROP,SERVO_FINGER_TAKE);
+  Robot::servo_arm_run(SERVO_ARM_DOWN,SERVO_ARM_POLU_UP);
+  Robot::servo_arm_run(SERVO_ARM_POLU_UP,SERVO_ARM_DOWN);
+  delay(1000);
+  color = Robot::get_color();
+  Robot::servo_arm_run(SERVO_ARM_DOWN,SERVO_ARM_UP);
+  //return color;
 }
 
 Robot::servo_arm_run(int start, int finish) {
@@ -79,6 +104,9 @@ Robot::motor(int left, int right) {
   analogWrite(PWM_2,map(constrain(abs(right),0,100),0,100,0,250));
 }
 
+bool color_ekvivalent(int a, int b) {
+  return abs(a-b)<(a+b)/5;
+}
 Robot::get_color() {
   // https://robotchip.ru/obzor-datchik-tsveta-na-tcs3472/
   // example Adafruit_TCS34725.h/tcs34725
@@ -100,14 +128,25 @@ Robot::get_color() {
     Serial.println(" ");
   }
 
-  if (r+g+b<1000) return 0; // black 
-  else if (r>800 && g>800) {
+  if (r+g+b<800) return 0; // black 
+  else {
+    int rg = color_ekvivalent(r,g);
+    int rb = color_ekvivalent(r,b);
+    int gb = color_ekvivalent(g,b);
+    if (rg+rb+gb==3) return 1; // white
+    else if (rg==1 && rb+gb==0 && r>b) return 2; // yellow 
+    else if (g>r && g>b) return 3; // green
+    else if (r>g && r>b) return 4; // red
+    else return 5; // blue
+  }
+  
+  /*else if (r>800 && g>800) {
     if (b>800) return 1; // white
     else return 2; // yellow 
   }
   else if (g>r && g>b) return 3; // green
   else if (r>g && r>b) return 4; // red
-  else return 5; // blue 
+  else return 5; // blue */
   /*
    * R: 759 G: 2005 B: 1253 - green
    * R: 1617 G: 2241 B: 1900 - white +
@@ -115,8 +154,25 @@ Robot::get_color() {
    * R: 2292 G: 2784 B: 987 - yellow + 
    * R: 318 G: 653 B: 863 - blue
    * R: 1035 G: 410 B: 354 - red
+   * 
+   * R: 1180 G: 1356 B: 485 - yellow
+   * R: 745 G: 821 B: 323 
+   * R: 1982 G: 2354 B: 807
+   * 
+   * R: 1010 G: 1374 B: 1148 - white
+   * R: 2405 G: 3522 B: 2955
+   * R: 639 G: 811 B: 664
+   * 
+   * R: 416 G: 209 B: 170 - red
+   * R: 1687 G: 608 B: 497
+   * R: 319 G: 195 B: 149
+   * 
+   * R: 132 G: 145 B: 112 - black
+   * R: 210 G: 265 B: 214
+   * R: 147 G: 145 B: 103
    * */
 }
+
 
 Robot::get_distanse() {
   // https://github.com/Ni3nayka/sketch/blob/main/arduino/исходники/distanse_IK/distanse_IK.ino
@@ -214,7 +270,7 @@ Robot::turn_right_millis( long int d) {
   for (unsigned long int t = millis(); t+d>millis() && !flag;) {
     if (Robot::get_distanse()<i_see_object){
       flag = 1;
-      delay(100);
+      //delay(100);
     }
   }
   Robot::motor(-MOTOR_SPEED,MOTOR_SPEED);

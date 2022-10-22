@@ -19,7 +19,8 @@
 
 #define SERVO_FINGER_TAKE   90
 #define SERVO_FINGER_DROP   10
-#define SERVO_ARM_UP        90
+#define SERVO_ARM_UP        95
+#define SERVO_ARM_POLU_UP   50
 #define SERVO_ARM_DOWN      0
 #define SERVO_ARM_MEGA_UP   90
 #define SERVO_ARM_MEGA_DOWN 80
@@ -53,8 +54,11 @@ class Robot {
     turn_right_perecrestok();
     turn_left_millis(long int d);
     turn_right_millis(long int d);
-    
-  private:
     servo_arm_run(int start, int finish);
     servo_finger_run(int start, int finish);
+
+    new_take();
+    int color;
+    
+  private:
 };
